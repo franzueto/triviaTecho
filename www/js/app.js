@@ -17,3 +17,18 @@ angular.module('starter', ['ionic'])
     }
   });
 })
+
+.config(function($stateProvider, $urlRouterProvider) {
+  $stateProvider
+  .state('index', {
+    url: '/',
+    templateUrl: 'templates/login.html'
+  })
+  .state('test', {
+    url: '/test',
+    templateUrl: 'templates/test.html'
+  })
+  ;
+
+  $urlRouterProvider.otherwise('/');
+});
