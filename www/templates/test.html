@@ -1,7 +1,13 @@
 <ion-view view-title="Test">
   <ion-content>
-    <div class="card">
-      Esta es una prueba
+    <div class="card" ng-repeat="question in questions">
+      <span >{{question.question}}</span>
+      <ion-list>
+      <ion-radio name="{{question.id}}" ng-model="question.correct" ng-value="1">{{question.opt1}}</ion-radio>
+      <ion-radio name="{{question.id}}" ng-model="question.correct" ng-value="2">{{question.opt2}}</ion-radio>
+      <ion-radio name="{{question.id}}" ng-model="question.correct" ng-value="3">{{question.opt3}}</ion-radio>
+      <ion-radio name="{{question.id}}" ng-model="question.correct" ng-value="4">{{question.opt4}}</ion-radio>
+      </ion-list>
     </div>
   </ion-content>
 </ion-view>

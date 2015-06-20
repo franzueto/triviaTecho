@@ -83,4 +83,16 @@ angular.module('starter.controllers', ['ngOpenFB'])
         }
       });
   }
+})
+
+.controller('TestCtrl', function($scope, Questions) {
+  $scope.questions = Questions.all()
+  .then(function(questions) {
+      //modify data as necessary
+      $scope.questions = questions;
+    }, function(reason) {
+      alert('Failed: ' + reason);
+    }
+  );
+  $scope.choice = 2;
 });
