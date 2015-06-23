@@ -27,8 +27,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/home',
     views: {
       'menuContent': {
-        templateUrl: 'templates/test.html',
-        controller: 'TestCtrl'
+        templateUrl: 'templates/home.html',
+        controller: 'HomeCtrl'
+      }
+    }
+  })
+  .state('app.trivia', {
+    url: '/trivia',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/trivia.html',
+        controller: 'TriviaCtrl'
       }
     }
   });

@@ -85,22 +85,67 @@ angular.module('starter.controllers', ['ngOpenFB'])
   }
 })
 
-.controller('TestCtrl', function($scope, Questions, $timeout) {
-  var counter_change_time = 0;
-  var counter_change_time_top = 12;
-  var counter_change_time_max = 20;
-  var WHEEL_INITIAL_TIMEOUT = 150;
-  var wheel_flag = true;
+.controller('TriviaCtrl', function($scope, Questions, $ionicLoading) {
+  var counter_question = 0;
+  $scope.lives = 3;
+  $scope.points = 0;
+
+  $scope.loading = $ionicLoading.show({
+    content: 'Cargando Trivia',
+    animation: 'fade-in',
+    showBackdrop: true,
+    maxWidth: 200,
+    showDelay: 0
+  });
 
   $scope.questions = Questions.all()
   .then(function(questions) {
       //modify data as necessary
       $scope.questions = questions;
+      $scope.question = questions[counter_question];
+      $ionicLoading.hide();
     }, function(reason) {
       alert('Failed: ' + reason);
+      $ionicLoading.hide();
     }
   );
+
+  $scope.answer = function() {
+    if(!$scope.question.answer){
+      alert("¡Selecciona una opción para tu respuesta!");
+      return;
+    }
+
+    if($scope.question.answer != $scope.question.correct){
+      $scope.lives--;
+      alert("¡Cuidado, perdiste una vida!")
+    } else{
+      $scope.points++;
+    }
+
+    if($scope.lives < 1){
+      alert("¡Perdiste, vuelve a intentarlo!");
+    } else{
+      counter_question++;
+      if(counter_question < $scope.questions.length){
+        $scope.question = $scope.questions[counter_question];
+      } else{
+        alert("Terminaste, lograste: " + $scope.points + " puntos.");
+      }
+    }
+  }
   //$scope.choice = 2;
+})
+
+.controller('HomeCtrl', function($scope, $timeout, $state) {
+  var counter_change_time = 0;
+  var counter_change_time_top = 12;
+  var counter_change_time_max = 20;
+  var WHEEL_INITIAL_TIMEOUT = 150;
+  var wheel_flag = true;
+  var start_trivia = false;
+
+  $scope.txt_wheel_btn = "¡Girar Ruleta!";
 
   clean_categories();
 
@@ -109,6 +154,8 @@ angular.module('starter.controllers', ['ngOpenFB'])
       wheel_flag = false;
       counter_change_time = 0;
       start_wheel(WHEEL_INITIAL_TIMEOUT);
+    } else if (start_trivia) {
+      $state.go('app.trivia');
     }
     //$scope.is_category1 = !$scope.is_category1;
   }
@@ -126,7 +173,9 @@ angular.module('starter.controllers', ['ngOpenFB'])
           delay = WHEEL_INITIAL_TIMEOUT * 2;
           start_wheel(delay);
         } else{
-          wheel_flag = true;
+          $scope.txt_wheel_btn = "Iniciar Trivia";
+          start_trivia = true;
+          //wheel_flag = true;
         }
         counter_change_time++;
       }
