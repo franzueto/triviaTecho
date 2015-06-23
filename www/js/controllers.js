@@ -85,7 +85,13 @@ angular.module('starter.controllers', ['ngOpenFB'])
   }
 })
 
-.controller('TestCtrl', function($scope, Questions) {
+.controller('TestCtrl', function($scope, Questions, $timeout) {
+  var counter_change_time = 0;
+  var counter_change_time_top = 12;
+  var counter_change_time_max = 20;
+  var WHEEL_INITIAL_TIMEOUT = 150;
+  var wheel_flag = true;
+
   $scope.questions = Questions.all()
   .then(function(questions) {
       //modify data as necessary
@@ -94,5 +100,64 @@ angular.module('starter.controllers', ['ngOpenFB'])
       alert('Failed: ' + reason);
     }
   );
-  $scope.choice = 2;
+  //$scope.choice = 2;
+
+  clean_categories();
+
+  $scope.wheel = function() {
+    if(wheel_flag){
+      wheel_flag = false;
+      counter_change_time = 0;
+      start_wheel(WHEEL_INITIAL_TIMEOUT);
+    }
+    //$scope.is_category1 = !$scope.is_category1;
+  }
+
+  function start_wheel(delay) {
+    $timeout(function() {
+      clean_categories();
+      select_random_category();
+
+      if(counter_change_time < counter_change_time_top){
+        start_wheel(delay);
+        counter_change_time++;
+      } else{
+        if(counter_change_time < counter_change_time_max){
+          delay = WHEEL_INITIAL_TIMEOUT * 2;
+          start_wheel(delay);
+        } else{
+          wheel_flag = true;
+        }
+        counter_change_time++;
+      }
+    }, delay);
+  }
+
+  function clean_categories() {
+    $scope.is_category1 = false;
+    $scope.is_category2 = false;
+    $scope.is_category3 = false;
+    $scope.is_category4 = false;
+  }
+
+  function select_random_category() {
+    var random_n = Math.floor((Math.random() * 4) + 1);
+    console.log(random_n);
+
+    switch (random_n) {
+      case 1:
+        $scope.is_category1 = true;
+        break;
+      case 2:
+        $scope.is_category2 = true;
+        break;
+      case 3:
+        $scope.is_category3 = true;
+        break;
+      case 4:
+        $scope.is_category4 = true;
+        break;
+      default:
+    }
+  }
 });
