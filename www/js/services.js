@@ -7,11 +7,12 @@ angular.module('starter.services', [])
 
 
   return {
-    all: function() {
+    all: function(category) {
       var deferred = $q.defer();
       questions = [];
       var Question = Parse.Object.extend("Question");
       var queryQuestion = new Parse.Query(Question);
+      queryQuestion.equalTo("category", category);
       queryQuestion.find({
         success: function (results) {
           for (var i = 0; i < results.length; i++) {

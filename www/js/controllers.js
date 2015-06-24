@@ -85,7 +85,9 @@ angular.module('starter.controllers', ['ngOpenFB'])
   }
 })
 
-.controller('TriviaCtrl', function($scope, Questions, $ionicLoading) {
+.controller('TriviaCtrl', function($scope, Questions, $ionicLoading, $stateParams) {
+  $scope.category = $stateParams.category;
+
   var counter_question = 0;
   $scope.lives = 3;
   $scope.points = 0;
@@ -98,7 +100,7 @@ angular.module('starter.controllers', ['ngOpenFB'])
     showDelay: 0
   });
 
-  $scope.questions = Questions.all()
+  $scope.questions = Questions.all($scope.category)
   .then(function(questions) {
       //modify data as necessary
       $scope.questions = questions;
@@ -155,7 +157,9 @@ angular.module('starter.controllers', ['ngOpenFB'])
       counter_change_time = 0;
       start_wheel(WHEEL_INITIAL_TIMEOUT);
     } else if (start_trivia) {
-      $state.go('app.trivia');
+      $state.go('app.trivia', {
+        category: get_category_selected()
+      });
     }
     //$scope.is_category1 = !$scope.is_category1;
   }
@@ -208,5 +212,12 @@ angular.module('starter.controllers', ['ngOpenFB'])
         break;
       default:
     }
+  }
+
+  function get_category_selected() {
+    if($scope.is_category1) return "CAT1";
+    if($scope.is_category2) return "CAT2";
+    if($scope.is_category3) return "CAT3";
+    if($scope.is_category4) return "CAT4";
   }
 });

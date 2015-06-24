@@ -33,7 +33,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
   .state('app.trivia', {
-    url: '/trivia',
+    url: '/trivia/:category',
     views: {
       'menuContent': {
         templateUrl: 'templates/trivia.html',
