@@ -1,1 +1,57 @@
-/* Empty. Add your own CSS if you like */
+.item,  .button{
+	font-family: 'VistaSanReg';
+}
+
+@font-face {
+	 font-family: 'Novecentowide';
+	 src: url('fonts/Novecentowide-Normal.eot');
+	 src: url('fonts/Novecentowide-Normal.eot?#iefix') format('embedded-opentype'),
+	 url('fonts/Novecentowide-Normal.woff') format('woff'),
+	 url('fonts/Novecentowide-Normal.ttf') format('truetype'),
+	 url('fonts/Novecentowide-Normal.svg#FontName') format('svg');
+	 font-weight: normal;
+	 font-style: normal;
+}
+@font-face {
+	 font-family: 'VistaSanReg';
+	 src: url('fonts/VistaSanReg.eot');
+	 src: url('fonts/VistaSanReg.eot?#iefix') format('embedded-opentype'),
+	 url('fonts/VistaSanReg.woff') format('woff'),
+	 url('fonts/VistaSanReg.ttf') format('truetype'),
+	 url('fonts/VistaSanReg.svg#FontName') format('svg');
+	 font-weight: normal;
+	 font-style: normal;
+}/* Empty. Add your own CSS if you like */
+
+/*Inicia estilo de la ruleta*/
+
+.centered {
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#container {
+    width: 768px;
+    height: 768px;
+}
+
+#status_label {
+    position: absolute;
+    top: 768px;
+    width: 768px;
+    color: black;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.5em;
+    text-align: center;
+    pointer-events: none;
+}
+
+#drawing_canvas {
+    position: absolute;
+}
+
+/*Finaliza estilo de la ruleta*/

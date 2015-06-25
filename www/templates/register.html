@@ -1,8 +1,8 @@
-<ion-view view-title="Login" name="login-view">
+<ion-view view-title="Registro" name="register-view">
   <ion-content class="padding">
       <div class="list list-inset">
           <label class="item item-input">
-              <input type="text" placeholder="Correo eléctronico" ng-model="data.username">
+              <input type="text" placeholder="Correo electrónico" ng-model="data.username">
           </label>
           <label class="item item-input">
               <input type="text" placeholder="Nombre" ng-model="data.name">
@@ -14,8 +14,13 @@
               <input type="password" placeholder="Confirmar contraseña" ng-model="data.password">
           </label>
       </div>
-      <button class="button button-block button-calm" ng-click="login()">Register</button>
 
-      <button class="button button-block button-calm" ng-click="login()">Register using FB</button>
+      <button class="button button-block button-positive" ng-click="login()">Registrarse</button>
+
+      <button class="button button-block button-calm" ng-click="login()">Registrarse con Facebook</button>
+      <br/><br/>
+      <center></center><img src="./img/logo.jpg"></center>
+      
   </ion-content>
 </ion-view>
+

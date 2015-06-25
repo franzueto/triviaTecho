@@ -36,8 +36,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
   $stateProvider
   .state('index', {
     url: '/',
-    templateUrl: 'templates/login.html',
-    controller: 'LoginCtrl'
+    templateUrl: 'templates/wheel.html',
+    controller: 'WheelCtrl'
   })
   .state('test', {
     url: '/test',
