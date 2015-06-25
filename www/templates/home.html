@@ -1,0 +1,15 @@
+<ion-view view-title="Home">
+  <ion-content>
+    <div class="row">
+      <div class="col col-50 blue" ng-class="{green: is_category1}">categoria 1</div>
+      <div class="col col-50 gray" ng-class="{green: is_category2}">categoria 2</div>
+    </div>
+    <div class="row">
+      <div class="col col-50 cyan" ng-class="{green: is_category3}">categoria 3</div>
+      <div class="col col-50 red" ng-class="{green: is_category4}">categoria 4</div>
+    </div>
+    <button class="button button-full button-royal" ng-click="wheel()">
+      {{txt_wheel_btn}}
+    </button>
+  </ion-content>
+</ion-view>
