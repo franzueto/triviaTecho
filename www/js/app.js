@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
   .state('index', {
     url: '/index',
-    templateUrl: 'templates/login.html',
+    templateUrl: 'templates/login2.html',
     controller: 'LoginCtrl'
   })
   .state('app.home', {

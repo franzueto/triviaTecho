@@ -1,5 +1,9 @@
-.item,  .button{
+.item,  .button, body{
 	font-family: 'VistaSanReg';
+}
+
+.titulosN{
+  font-family: 'Novecentowide';
 }
 
 @font-face {
