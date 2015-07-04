@@ -140,6 +140,24 @@ angular.module('starter.controllers', ['ngOpenFB'])
 })
 
 .controller('HomeCtrl', function($scope, $timeout, $state) {
+
+  //sonido
+  /*
+  $scope.play = function(src) {
+        var media = new Media(src, null, null, mediaStatusCallback);
+        $cordovaMedia.play(media);
+    }
+ 
+  var mediaStatusCallback = function(status) {
+      if(status == 1) {
+          $ionicLoading.show({template: 'Loading...'});
+      } else {
+          $ionicLoading.hide();
+      }
+  }
+  */
+  //termina sonido
+
   var counter_change_time = 0;
   var counter_change_time_top = 12;
   var counter_change_time_max = 20;
@@ -147,7 +165,7 @@ angular.module('starter.controllers', ['ngOpenFB'])
   var wheel_flag = true;
   var start_trivia = false;
 
-  $scope.txt_wheel_btn = "¡Girar Ruleta!";
+  $scope.txt_wheel_btn = "Empezar";
 
   clean_categories();
 
@@ -177,7 +195,7 @@ angular.module('starter.controllers', ['ngOpenFB'])
           delay = WHEEL_INITIAL_TIMEOUT * 2;
           start_wheel(delay);
         } else{
-          $scope.txt_wheel_btn = "Iniciar Trivia";
+          $scope.txt_wheel_btn = "Jugar";
           start_trivia = true;
           //wheel_flag = true;
         }
