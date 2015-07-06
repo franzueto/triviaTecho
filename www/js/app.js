@@ -19,7 +19,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     controller: 'AppCtrl'
   })
   .state('index', {
-    url: '/index',
+    url: '/index?clear',
     templateUrl: 'templates/login2.html',
     controller: 'LoginCtrl'
   })
@@ -33,7 +33,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
   .state('app.trivia', {
-    url: '/trivia/:category',
+    url: '/trivia/?clear:category',
     views: {
       'menuContent': {
         templateUrl: 'templates/trivia.html',
@@ -74,5 +74,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       $state.go('app.home');
     }
   });
-  
+
 });
