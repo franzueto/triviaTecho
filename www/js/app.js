@@ -27,7 +27,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     controller: 'LoginCtrl'
   })
   .state('app.home', {
-    url: '/home',
+    url: '/home?restart',
     views: {
       'menuContent': {
         templateUrl: 'templates/home.html',
@@ -41,6 +41,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'menuContent': {
         templateUrl: 'templates/trivia.html',
         controller: 'TriviaCtrl'
+      }
+    }
+  })
+  .state('app.toptrivia', {
+    url: '/toptrivia',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/toptrivia.html',
+        controller: 'TopTriviaCtrl'
       }
     }
   });

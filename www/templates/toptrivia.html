@@ -1,0 +1,16 @@
+<ion-view view-title="Top Trivia">
+  <ion-content>
+    <button class="button button-small button-balanced" ng-click="refresh()">
+      Refrescar Lista
+    </button>
+      <ion-list>
+        <ion-item ng-repeat="item in items">
+          <a class="item item-icon-left" href="#">
+            <i class="icon ion-person-stalker"></i>
+              {{item.get('name')}}
+            <span class="badge badge-assertive">Total: {{item.get('total')}}</span>
+          </a>
+        </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

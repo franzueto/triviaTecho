@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngOpenFB'])
+controllers = angular.module('starter.controllers', ['ngOpenFB'])
 
 .controller('AppCtrl', function($scope, $state, $rootScope, $ionicHistory, $stateParams) {
   if ($stateParams.clear) {
@@ -55,6 +55,13 @@ angular.module('starter.controllers', ['ngOpenFB'])
                     var user_parse = new Parse.User();
                     user_parse.set("username", user.id);
                     user_parse.set("password", user.id);
+                    user_parse.set("name", user.name);
+                    user_parse.set("total_cat1", 0);
+                    user_parse.set("total_cat2", 0);
+                    user_parse.set("total_cat3", 0);
+                    user_parse.set("total_cat4", 0);
+                    user_parse.set("total_cat5", 0);
+                    user_parse.set("total", 0);
 
                     user_parse.signUp(null, {
                       success: function(user_parse_signed) {
@@ -85,73 +92,22 @@ angular.module('starter.controllers', ['ngOpenFB'])
   }
 })
 
-.controller('TriviaCtrl', function($scope, Questions, $ionicLoading,
-  $state, $stateParams, $ionicHistory, $ionicNavBarDelegate) {
-  if ($stateParams.clear) {
-    //$ionicHistory.clearHistory();
-    //$ionicHistory.clearCache();
-    $ionicNavBarDelegate.showBackButton(false);
-    console.log("aloja!");
+.controller('HomeCtrl', function($scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams, $window) {
+  if ($stateParams.restart) {
+    $window.location.reload(true)
   }
 
-  $scope.category = $stateParams.category;
+  $scope.max_total = 0;
 
-  var counter_question = 0;
-  $scope.lives = 3;
-  $scope.points = 0;
+  var currentUser = Parse.User.current();
+  currentUser.fetch({
+    success: function(currentUser) {
+      $scope.max_total = currentUser.get('total');
+    },
+    error: function(currentUser, error) {
 
-  $scope.loading = $ionicLoading.show({
-    content: 'Cargando Trivia',
-    animation: 'fade-in',
-    showBackdrop: true,
-    maxWidth: 200,
-    showDelay: 0
+    }
   });
-
-  $scope.questions = Questions.all($scope.category)
-  .then(function(questions) {
-      //modify data as necessary
-      $scope.questions = questions;
-      $scope.question = questions[counter_question];
-      $ionicLoading.hide();
-    }, function(reason) {
-      alert('Failed: ' + reason);
-      $ionicLoading.hide();
-    }
-  );
-
-  $scope.answer = function(myAnswer) {
-    if(!myAnswer){
-      alert("¡Selecciona una opción para tu respuesta!");
-      return;
-    }
-
-    if(myAnswer != $scope.question.correct){
-      $scope.lives--;
-      alert("¡Cuidado, perdiste una vida!")
-    } else{
-      $scope.points++;
-    }
-
-    if($scope.lives < 1){
-      alert("¡Perdiste, vuelve a intentarlo!");
-      $state.go('app.home', {restart: true});
-    } else{
-      counter_question++;
-      if(counter_question < $scope.questions.length){
-        $scope.question = $scope.questions[counter_question];
-      } else{
-        alert("Terminaste, lograste: " + $scope.points + " puntos.");
-        $state.go('app.home', {restart: true});
-      }
-    }
-  }
-  //$scope.choice = 2;
-})
-
-.controller('HomeCtrl', function($scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams) {
-  //$ionicHistory.clearHistory();
-  //$ionicHistory.clearCache();
 
   //sonido
   /*
@@ -180,20 +136,6 @@ angular.module('starter.controllers', ['ngOpenFB'])
   $scope.txt_wheel_btn = "Empezar";
 
   clean_categories();
-
-  /*if ($stateParams.restart) {
-    console.log('holi!');
-    counter_change_time = 0;
-    counter_change_time_top = 12;
-    counter_change_time_max = 20;
-    WHEEL_INITIAL_TIMEOUT = 150;
-    wheel_flag = true;
-    start_trivia = false;
-
-    $scope.txt_wheel_btn = "¡Girar Ruleta!";
-
-    clean_categories();
-  }*/
 
   $scope.wheel = function() {
     if(wheel_flag){

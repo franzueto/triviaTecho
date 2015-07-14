@@ -1,18 +1,15 @@
 angular.module('starter.services', [])
 
 .factory('Questions', function($q) {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-
 
   return {
-    all: function(category) {
+    all: function(category, level) {
       var deferred = $q.defer();
       questions = [];
       var Question = Parse.Object.extend("Question");
       var queryQuestion = new Parse.Query(Question);
       queryQuestion.equalTo("category", category);
+      queryQuestion.equalTo("level", level);
       queryQuestion.find({
         success: function (results) {
           for (var i = 0; i < results.length; i++) {
