@@ -1,18 +1,17 @@
 <ion-view view-title="Trivia {{category}}">
   <ion-content>
     <span >Tienes {{lives}} vidas.</span>
+    </br>
     <span >Llevas {{points}} puntos.</span>
+    </br>
     <div class="card">
       <span >{{question.question}}</span>
       <ion-list>
-      <ion-radio name="{{question.id}}" ng-model="question.answer" ng-value="1">{{question.opt1}}</ion-radio>
-      <ion-radio name="{{question.id}}" ng-model="question.answer" ng-value="2">{{question.opt2}}</ion-radio>
-      <ion-radio name="{{question.id}}" ng-model="question.answer" ng-value="3">{{question.opt3}}</ion-radio>
-      <ion-radio name="{{question.id}}" ng-model="question.answer" ng-value="4">{{question.opt4}}</ion-radio>
+        <button class="button button-full button-royal" ng-click="answer(1)">{{question.opt1}}</button>
+        <button class="button button-full button-royal" ng-click="answer(2)">{{question.opt2}}</button>
+        <button class="button button-full button-royal" ng-click="answer(3)">{{question.opt3}}</button>
+        <button class="button button-full button-royal" ng-click="answer(4)">{{question.opt4}}</button>
       </ion-list>
     </div>
-    <button class="button button-full button-royal" ng-click="answer()">
-      Contestar
-    </button>
   </ion-content>
 </ion-view>

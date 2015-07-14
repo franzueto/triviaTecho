@@ -85,7 +85,15 @@ angular.module('starter.controllers', ['ngOpenFB'])
   }
 })
 
-.controller('TriviaCtrl', function($scope, Questions, $ionicLoading, $stateParams) {
+.controller('TriviaCtrl', function($scope, Questions, $ionicLoading,
+  $state, $stateParams, $ionicHistory, $ionicNavBarDelegate) {
+  if ($stateParams.clear) {
+    //$ionicHistory.clearHistory();
+    //$ionicHistory.clearCache();
+    $ionicNavBarDelegate.showBackButton(false);
+    console.log("aloja!");
+  }
+
   $scope.category = $stateParams.category;
 
   var counter_question = 0;
@@ -112,13 +120,13 @@ angular.module('starter.controllers', ['ngOpenFB'])
     }
   );
 
-  $scope.answer = function() {
-    if(!$scope.question.answer){
+  $scope.answer = function(myAnswer) {
+    if(!myAnswer){
       alert("¡Selecciona una opción para tu respuesta!");
       return;
     }
 
-    if($scope.question.answer != $scope.question.correct){
+    if(myAnswer != $scope.question.correct){
       $scope.lives--;
       alert("¡Cuidado, perdiste una vida!")
     } else{
@@ -127,19 +135,23 @@ angular.module('starter.controllers', ['ngOpenFB'])
 
     if($scope.lives < 1){
       alert("¡Perdiste, vuelve a intentarlo!");
+      $state.go('app.home', {restart: true});
     } else{
       counter_question++;
       if(counter_question < $scope.questions.length){
         $scope.question = $scope.questions[counter_question];
       } else{
         alert("Terminaste, lograste: " + $scope.points + " puntos.");
+        $state.go('app.home', {restart: true});
       }
     }
   }
   //$scope.choice = 2;
 })
 
-.controller('HomeCtrl', function($scope, $timeout, $state) {
+.controller('HomeCtrl', function($scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams) {
+  //$ionicHistory.clearHistory();
+  //$ionicHistory.clearCache();
 
   //sonido
   /*
@@ -147,7 +159,7 @@ angular.module('starter.controllers', ['ngOpenFB'])
         var media = new Media(src, null, null, mediaStatusCallback);
         $cordovaMedia.play(media);
     }
- 
+
   var mediaStatusCallback = function(status) {
       if(status == 1) {
           $ionicLoading.show({template: 'Loading...'});
@@ -169,6 +181,20 @@ angular.module('starter.controllers', ['ngOpenFB'])
 
   clean_categories();
 
+  /*if ($stateParams.restart) {
+    console.log('holi!');
+    counter_change_time = 0;
+    counter_change_time_top = 12;
+    counter_change_time_max = 20;
+    WHEEL_INITIAL_TIMEOUT = 150;
+    wheel_flag = true;
+    start_trivia = false;
+
+    $scope.txt_wheel_btn = "¡Girar Ruleta!";
+
+    clean_categories();
+  }*/
+
   $scope.wheel = function() {
     if(wheel_flag){
       wheel_flag = false;
@@ -176,7 +202,8 @@ angular.module('starter.controllers', ['ngOpenFB'])
       start_wheel(WHEEL_INITIAL_TIMEOUT);
     } else if (start_trivia) {
       $state.go('app.trivia', {
-        category: get_category_selected()
+        category: get_category_selected(),
+        clear: true
       });
     }
     //$scope.is_category1 = !$scope.is_category1;
@@ -209,10 +236,11 @@ angular.module('starter.controllers', ['ngOpenFB'])
     $scope.is_category2 = false;
     $scope.is_category3 = false;
     $scope.is_category4 = false;
+    $scope.is_category5 = false;
   }
 
   function select_random_category() {
-    var random_n = Math.floor((Math.random() * 4) + 1);
+    var random_n = Math.floor((Math.random() * 5) + 1);
     console.log(random_n);
 
     switch (random_n) {
@@ -228,6 +256,9 @@ angular.module('starter.controllers', ['ngOpenFB'])
       case 4:
         $scope.is_category4 = true;
         break;
+      case 5:
+        $scope.is_category5 = true;
+        break;
       default:
     }
   }
@@ -237,5 +268,6 @@ angular.module('starter.controllers', ['ngOpenFB'])
     if($scope.is_category2) return "CAT2";
     if($scope.is_category3) return "CAT3";
     if($scope.is_category4) return "CAT4";
+    if($scope.is_category5) return "CAT5";
   }
 });

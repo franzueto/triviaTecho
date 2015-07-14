@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 
-angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngOpenFB'])
 
 
 .value('ParseConfiguration', {
@@ -22,9 +22,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
     controller: 'AppCtrl'
   })
   .state('index', {
-    url: '/index',
-    templateUrl: 'templates/home.html',
-    controller: 'HomeCtrl'
+    url: '/index?clear',
+    templateUrl: 'templates/login2.html',
+    controller: 'LoginCtrl'
   })
   .state('app.home', {
     url: '/home',
@@ -36,7 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
     }
   })
   .state('app.trivia', {
-    url: '/trivia/:category',
+    url: '/trivia/?clear:category',
     views: {
       'menuContent': {
         templateUrl: 'templates/trivia.html',
@@ -77,5 +77,5 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngOpenFB'])
       $state.go('app.home');
     }
   });
-  
+
 });
