@@ -92,39 +92,11 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
   }
 })
 
-.controller('HomeCtrl', function($scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams, $window) {
-  if ($stateParams.restart) {
-    $window.location.reload(true)
-  }
-
-  $scope.max_total = 0;
-
-  var currentUser = Parse.User.current();
-  currentUser.fetch({
-    success: function(currentUser) {
-      $scope.max_total = currentUser.get('total');
-    },
-    error: function(currentUser, error) {
-
-    }
-  });
-
-  //sonido
-  /*
-  $scope.play = function(src) {
-        var media = new Media(src, null, null, mediaStatusCallback);
-        $cordovaMedia.play(media);
-    }
-
-  var mediaStatusCallback = function(status) {
-      if(status == 1) {
-          $ionicLoading.show({template: 'Loading...'});
-      } else {
-          $ionicLoading.hide();
-      }
-  }
-  */
-  //termina sonido
+.controller('HomeCtrl', function($cordovaMedia, $scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams, $window) {
+  /*if ($stateParams.restart) {
+    $window.location.reload(true);
+    initialize();
+  }*/
 
   var counter_change_time = 0;
   var counter_change_time_top = 12;
@@ -133,9 +105,52 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
   var wheel_flag = true;
   var start_trivia = false;
 
-  $scope.txt_wheel_btn = "Empezar";
+  function initialize() {
+    $scope.max_total = 0;
 
-  clean_categories();
+    var currentUser = Parse.User.current();
+    currentUser.fetch({
+      success: function(currentUser) {
+        $scope.max_total = currentUser.get('total');
+      },
+      error: function(currentUser, error) {
+
+      }
+    });
+
+    counter_change_time = 0;
+    counter_change_time_top = 12;
+    counter_change_time_max = 20;
+    WHEEL_INITIAL_TIMEOUT = 150;
+    wheel_flag = true;
+    start_trivia = false;
+
+    $scope.txt_wheel_btn = "Empezar";
+
+    clean_categories();
+  }
+
+  initialize();
+
+/*for ios
+function getMediaURL(s) {
+    if(device.platform.toLowerCase() === "android") return "/android_asset/www/" + s;
+    return s;
+}
+*/
+
+  function playMP3() {
+    var mp3URL = "/android_asset/www/mp3/plop.mp3";
+    var media = new Media(mp3URL, null, mediaError);
+    $cordovaMedia.play(media);
+  }
+
+  function mediaError(e) {
+    alert('Media Error');
+    alert(JSON.stringify(e));
+  }
+
+  //playMP3();
 
   $scope.wheel = function() {
     if(wheel_flag){
@@ -148,7 +163,6 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
         clear: true
       });
     }
-    //$scope.is_category1 = !$scope.is_category1;
   }
 
   function start_wheel(delay) {
@@ -203,6 +217,7 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
         break;
       default:
     }
+    playMP3();
   }
 
   function get_category_selected() {

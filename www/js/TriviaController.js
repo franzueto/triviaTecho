@@ -1,4 +1,4 @@
-controllers.controller('TriviaCtrl', function($scope, Questions, $ionicLoading,
+controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionicLoading,
   $state, $stateParams, $ionicHistory, $ionicNavBarDelegate) {
   if ($stateParams.clear) {
     $ionicNavBarDelegate.showBackButton(false);
@@ -54,13 +54,17 @@ controllers.controller('TriviaCtrl', function($scope, Questions, $ionicLoading,
         success: function(currentUser) {
           // Execute any logic that should take place after the object is saved.
           $ionicLoading.hide();
-          $state.go('app.home', {restart: true});
+          $state.go('app.home', {}, {reload: true}).then(function(){
+            $window.location.reload(true);
+          });
         },
         error: function(currentUser, error) {
           // Execute any logic that should take place if the save fails.
           // error is a Parse.Error with an error code and message.
           $ionicLoading.hide();
-          $state.go('app.home', {restart: true});
+          $state.go('app.home', {}, {reload: true}).then(function(){
+            $window.location.reload(true);
+          });
         }
       });
     } else {
