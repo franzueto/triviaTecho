@@ -1,10 +1,11 @@
 controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionicLoading,
-  $state, $stateParams, $ionicHistory, $ionicNavBarDelegate) {
+  $state, $stateParams, $ionicHistory, $ionicNavBarDelegate, $ionicPopup) {
   if ($stateParams.clear) {
     $ionicNavBarDelegate.showBackButton(false);
   }
 
   $scope.category = $stateParams.category;
+  $scope.categoryName = get_nombre_categoria($scope.category);
 
   var counter_question = 0;
   $scope.lives = 3;
@@ -28,7 +29,7 @@ controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionic
         $scope.question = questions[counter_question];
         $ionicLoading.hide();
       }, function(reason) {
-        alert('Failed: ' + reason);
+        showAlert('Failed: ' + reason);
         $ionicLoading.hide();
       }
     );
@@ -54,7 +55,7 @@ controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionic
         success: function(currentUser) {
           // Execute any logic that should take place after the object is saved.
           $ionicLoading.hide();
-          $state.go('app.home', {}, {reload: true}).then(function(){
+          $state.go('loading', {}, {reload: true}).then(function(){
             $window.location.reload(true);
           });
         },
@@ -62,7 +63,7 @@ controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionic
           // Execute any logic that should take place if the save fails.
           // error is a Parse.Error with an error code and message.
           $ionicLoading.hide();
-          $state.go('app.home', {}, {reload: true}).then(function(){
+          $state.go('loading', {}, {reload: true}).then(function(){
             $window.location.reload(true);
           });
         }
@@ -79,28 +80,36 @@ controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionic
 
   $scope.answer = function(myAnswer) {
     if(!myAnswer){
-      alert("¡Selecciona una opción para tu respuesta!");
+      showAlert("¡Selecciona una opción para tu respuesta!");
       return;
     }
 
     if(myAnswer != $scope.question.correct){
       $scope.lives--;
-      alert("¡Cuidado, perdiste una vida!")
+      if($scope.lives >= 1){
+        showAlert("¡Cuidado, perdiste una vida!");
+      }
     } else{
       $scope.points++;
     }
 
     if($scope.lives < 1){
-      alert("¡No lograste terminar esta categoría. Ánimo, vuelve a intentarlo!");
-      saveResult($scope.category, $scope.points);
+      showAlert("¡No lograste terminar esta categoría. Ánimo, vuelve a intentarlo!"
+        , function () {
+          saveResult($scope.category, $scope.points);
+        }
+      );
     } else{
       counter_question++;
       if(counter_question < $scope.questions.length){
         $scope.question = $scope.questions[counter_question];
       } else{
         if($scope.level>=1){
-          alert("¡Felicidades! Lograste terminar esta categoría. Tu puntuación fue: " + $scope.points + " puntos.");
-          saveResult($scope.category, $scope.points);
+          showAlert("¡Felicidades! Lograste terminar esta categoría. Tu puntuación fue: " + $scope.points + " puntos."
+            , function () {
+              saveResult($scope.category, $scope.points);
+            }
+          );
         }else{
           $scope.level = $scope.level + 1;
           getQuestions(Questions.all($scope.category, $scope.level));
@@ -115,6 +124,34 @@ controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionic
     if(cat === "CAT3") return "total_cat3";
     if(cat === "CAT4") return "total_cat4";
     if(cat === "CAT5") return "total_cat5";
+  }
+
+  function get_nombre_categoria(cat) {
+    if(cat === "CAT1") return "Cultura Guatemalteca";
+    if(cat === "CAT2") return "Pobreza y Desigualdad";
+    if(cat === "CAT3") return "Historia Guatemalteca";
+    if(cat === "CAT4") return "Personajes Guatemaltecos";
+    if(cat === "CAT5") return "Ciudadanía";
+  }
+
+  function showAlert(texto, callback) {
+    var alertPopup = $ionicPopup.alert({
+      title: "Mensaje",
+      template: texto
+    });
+    alertPopup.then(function(res) {
+      if (callback != null && typeof callback === "function") {
+        callback();
+      }
+    });
+  }
+
+  function showConfirm(texto, callback) {
+    var alertPopup = $ionicPopup.alert({
+      title: "Mensaje",
+      template: texto
+    });
+
   }
 
 });

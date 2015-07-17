@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.triviatecho378557" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>triviaTecho</name>
+<widget id="com.techoguatemala.triviatecho" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>TriviaTecho</name>
   <description>&#xD;
-        An Ionic Framework and Cordova project.&#xD;
-    </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">&#xD;
-      Ionic Framework Team&#xD;
-    </author>
+    Trivia desarrollada para Techo Guatemala.&#xD;
+  </description>
+  <author email="franzueto@gmail.com" href="https://twitter.com/franzueto">&#xD;
+    Francisco Anzueto&#xD;
+  </author>
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>

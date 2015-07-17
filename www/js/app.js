@@ -8,9 +8,41 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 
 .value('ParseConfiguration', {
-        applicationId: "tkMF7B1eoP2uRDfuQPmGm5zXXnxUa4YxPjKRlCbg",
-        javascriptKey: "opJpMr5OodNaMCzY86uX66LprUzNRzJt9Wuys7Oh"
-    })
+  applicationId: "tkMF7B1eoP2uRDfuQPmGm5zXXnxUa4YxPjKRlCbg",
+  javascriptKey: "opJpMr5OodNaMCzY86uX66LprUzNRzJt9Wuys7Oh"
+})
+
+.run(function($ionicPlatform, $state, $rootScope, ngFB, ParseConfiguration, $ionicHistory) {
+  ngFB.init({appId: '449892315192982'});
+
+  Parse.initialize(ParseConfiguration.applicationId, ParseConfiguration.javascriptKey);
+
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if(window.cordova && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+    }
+    if(window.StatusBar) {
+      StatusBar.styleDefault();
+    }
+
+    //Parse.User.logOut();
+    //$rootScope.user = null;
+    //$rootScope.isLoggedIn = false;
+
+    var currentUser = Parse.User.current();
+    $rootScope.user = null;
+    $rootScope.isLoggedIn = false;
+
+    if (currentUser) {
+      $rootScope.user = currentUser;
+      $rootScope.isLoggedIn = true;
+      $state.go('app.home', {clear: true});
+    }
+  });
+
+})
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -26,8 +58,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/login2.html',
     controller: 'LoginCtrl'
   })
+  .state('loading', {
+    url: '/loading',
+    templateUrl: 'templates/loading.html',
+    controller: 'LoadingCtrl'
+  })
   .state('app.home', {
-    url: '/home?restart',
+    url: '/home?clear',
     views: {
       'menuContent': {
         templateUrl: 'templates/home.html',
@@ -55,36 +92,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 
   $urlRouterProvider.otherwise('/index');
-})
-
-.run(function($ionicPlatform, $state, $rootScope, ngFB, ParseConfiguration) {
-  ngFB.init({appId: '449892315192982'});
-
-  Parse.initialize(ParseConfiguration.applicationId, ParseConfiguration.javascriptKey);
-
-  $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
-    // for form inputs)
-    if(window.cordova && window.cordova.plugins.Keyboard) {
-      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if(window.StatusBar) {
-      StatusBar.styleDefault();
-    }
-
-    //Parse.User.logOut();
-    //$rootScope.user = null;
-    //$rootScope.isLoggedIn = false;
-
-    var currentUser = Parse.User.current();
-    $rootScope.user = null;
-    $rootScope.isLoggedIn = false;
-
-    if (currentUser) {
-      $rootScope.user = currentUser;
-      $rootScope.isLoggedIn = true;
-      $state.go('app.home');
-    }
-  });
-
 });

@@ -16,7 +16,7 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
   };
 })
 
-.controller('LoginCtrl', function($scope, $rootScope, $state, $ionicLoading, $ionicHistory, $stateParams, ngFB) {
+.controller('LoginCtrl', function($ionicPopup, $scope, $rootScope, $state, $ionicLoading, $ionicHistory, $stateParams, ngFB) {
   if ($stateParams.clear) {
     $ionicHistory.clearHistory();
     $ionicHistory.clearCache();
@@ -49,7 +49,7 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
                     $rootScope.user = user_logged;
                     $rootScope.isLoggedIn = true;
                     $ionicLoading.hide();
-                    $state.go('app.home');
+                    $state.go('app.home', {clear: true});
                   },
                   error: function(user_logged, error) {
                     var user_parse = new Parse.User();
@@ -69,12 +69,12 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
                         $rootScope.user = user_parse_signed;
                         $rootScope.isLoggedIn = true;
                         $ionicLoading.hide();
-                        $state.go('app.home');
+                        $state.go('app.home', {clear: true});
                       },
                       error: function(user_parse_signed, error) {
                         // Show the error message somewhere and let the user try again.
                         $ionicLoading.hide();
-                        alert("Error: " + error.code + " " + error.message);
+                        showAlert("Error: " + error.code + " " + error.message);
                       }
                     });
                   }
@@ -82,21 +82,28 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
             },
             function (error) {
               $ionicLoading.hide();
-              alert('Facebook error: ' + error.error_description);
+              showAlert('Facebook error: ' + error.error_description);
             });
         } else {
-          alert('Facebook login failed');
+          showAlert('Facebook login failed');
           $ionicLoading.hide();
         }
       });
   }
+
+  function showAlert(texto) {
+    $ionicPopup.alert({
+      title: "Mensaje",
+      template: texto
+    });
+  }
 })
 
-.controller('HomeCtrl', function($cordovaMedia, $scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams, $window) {
-  /*if ($stateParams.restart) {
-    $window.location.reload(true);
-    initialize();
-  }*/
+.controller('HomeCtrl', function($ionicPopup, $cordovaMedia, $scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams, $window) {
+  if ($stateParams.clear) {
+    $ionicHistory.clearHistory();
+    $ionicHistory.clearCache();
+  }
 
   var counter_change_time = 0;
   var counter_change_time_top = 12;
@@ -140,14 +147,19 @@ function getMediaURL(s) {
 */
 
   function playMP3() {
-    var mp3URL = "/android_asset/www/mp3/plop.mp3";
+    var mp3URL = getMediaURL("mp3/plop.mp3");
     var media = new Media(mp3URL, null, mediaError);
     $cordovaMedia.play(media);
   }
 
   function mediaError(e) {
-    alert('Media Error');
-    alert(JSON.stringify(e));
+    showAlert('Media Error');
+    showAlert(JSON.stringify(e));
+  }
+
+  function getMediaURL(s) {
+    if(ionic.Platform.isAndroid()) return "/android_asset/www/" + s;
+    return s;
   }
 
   //playMP3();
@@ -227,4 +239,15 @@ function getMediaURL(s) {
     if($scope.is_category4) return "CAT4";
     if($scope.is_category5) return "CAT5";
   }
+
+  function showAlert(texto) {
+    $ionicPopup.alert({
+      title: "Mensaje",
+      template: texto
+    });
+  }
+})
+
+.controller('LoadingCtrl', function() {
+
 });
