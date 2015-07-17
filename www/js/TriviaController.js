@@ -56,7 +56,7 @@ controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionic
           // Execute any logic that should take place after the object is saved.
           $ionicLoading.hide();
           $state.go('loading', {}, {reload: true}).then(function(){
-            $window.location.reload(true);
+            //$window.location.reload(true);
           });
         },
         error: function(currentUser, error) {
@@ -64,7 +64,7 @@ controllers.controller('TriviaCtrl', function($window, $scope, Questions, $ionic
           // error is a Parse.Error with an error code and message.
           $ionicLoading.hide();
           $state.go('loading', {}, {reload: true}).then(function(){
-            $window.location.reload(true);
+            //$window.location.reload(true);
           });
         }
       });

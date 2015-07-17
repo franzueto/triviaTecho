@@ -99,7 +99,7 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
   }
 })
 
-.controller('HomeCtrl', function($ionicPopup, $cordovaMedia, $scope, $timeout, $state, $ionicHistory, $ionicNavBarDelegate, $stateParams, $window) {
+.controller('HomeCtrl', function($ionicPopup, $cordovaMedia, $scope, $timeout, $state, $ionicHistory, $stateParams, $window) {
   if ($stateParams.clear) {
     $ionicHistory.clearHistory();
     $ionicHistory.clearCache();
@@ -139,13 +139,6 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
 
   initialize();
 
-/*for ios
-function getMediaURL(s) {
-    if(device.platform.toLowerCase() === "android") return "/android_asset/www/" + s;
-    return s;
-}
-*/
-
   function playMP3() {
     var mp3URL = getMediaURL("mp3/plop.mp3");
     var media = new Media(mp3URL, null, mediaError);
@@ -161,8 +154,6 @@ function getMediaURL(s) {
     if(ionic.Platform.isAndroid()) return "/android_asset/www/" + s;
     return s;
   }
-
-  //playMP3();
 
   $scope.wheel = function() {
     if(wheel_flag){
@@ -248,6 +239,9 @@ function getMediaURL(s) {
   }
 })
 
-.controller('LoadingCtrl', function() {
+.controller('LoadingCtrl', function($timeout, $window) {
 
+  $timeout(function(){
+    $window.location.reload(true);
+  }, 1100);
 });
