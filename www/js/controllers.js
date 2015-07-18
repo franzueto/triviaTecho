@@ -241,8 +241,4 @@ controllers = angular.module('starter.controllers', ['ngOpenFB'])
 
 .controller('LoadingCtrl', function($state, $timeout, $window) {
 
-  $timeout(function(){
-    $state.go('app.home', {clear: true});
-    //$window.location.reload(true);
-  }, 1100);
 });
